@@ -45,12 +45,40 @@ let coffees = [
 let coffeeReveresed = coffees.reverse();
 
 
+//Search function for coffee
+// es5 works but when converted to a arow function it doesnt work
+function updateCoffees(e) {
+    e.preventDefault(); // don't submit the form, we just want to update the data
+    var selectedRoast = coffeeSelector.value;
+    var searchCoffee = document.getElementById('searchCoffeeName').value;
+    var filteredCoffees = [];
+    coffees.forEach(function(coffee) {
+        if (selectedRoast === 'all' && coffee.name.toLowerCase().includes(searchCoffee.toLowerCase())){
+            filteredCoffees.push(coffee);
+        }
+        else if ( coffee.roast === selectedRoast && coffee.name.toLowerCase().includes(searchCoffee.toLowerCase())) {
+            filteredCoffees.push(coffee);
+        }
+    });
+    var selector = document.getElementById("coffees");
+    selector.innerHTML = renderCoffees(filteredCoffees);
+}
 
-console.log(renderCoffee(coffees));
-var tbody = document.querySelector('#coffees');
-var submitButton = document.querySelector('#submit');
-var roastSelection = document.querySelector('#roast-selection');
 
-tbody.innerHTML = renderCoffees(coffeeReveresed);
+
+
+
+
+let searchCoffee = document.querySelector("#searchCoffeeName")
+let coffeeSelector = document.querySelector("#roast-selection");
+let selector = document.querySelector('#coffees');
+let submitButton = document.querySelector('#submit');
+let roastSelection = document.querySelector('#roast-selection');
+
+selector.innerHTML = renderCoffees(coffees);
+
+searchCoffee.addEventListener("keyup", updateCoffees);
 
 submitButton.addEventListener('click', updateCoffees);
+
+coffeeSelector.addEventListener("change", updateCoffees);
